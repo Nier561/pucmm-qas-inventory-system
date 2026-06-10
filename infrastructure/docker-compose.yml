@@ -1,8 +1,6 @@
 # Archivo de orquestación de Docker Compose para la infraestructura local.
 # Define los servicios necesarios para ejecutar la aplicación en un entorno de desarrollo.
 
-version: '3.8'
-
 services:
   # Servicio de base de datos PostgreSQL
   postgres:
@@ -26,6 +24,41 @@ services:
       - postgres_data:/var/lib/postgresql/data
     # Reiniciar automáticamente el contenedor si falla
     restart: unless-stopped
+
+  # Servicio de Gestión de Identidad y Acceso (Keycloak)
+  keycloak:
+    # Utilizamos la imagen oficial de Keycloak proporcionada por RedHat (Quay)
+    image: quay.io/keycloak/keycloak:latest
+    # Nombre del contenedor para facilitar su identificación y administración
+    container_name: inventory_keycloak
+    # Comando de inicio: 'start-dev' arranca Keycloak en modo desarrollo (ideal para local).
+    # '--import-realm' fuerza a Keycloak a buscar e importar archivos JSON en /opt/keycloak/data/import/ al inicio.
+    command: start-dev --import-realm
+    # Variables de entorno requeridas para la configuración inicial y conexión a la base de datos
+    environment:
+      # Usuario administrador maestro de Keycloak (Consola de administración principal)
+      KEYCLOAK_ADMIN: admin
+      # Contraseña del administrador maestro
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      # Indica el motor de base de datos a utilizar (PostgreSQL) para que Keycloak cree sus esquemas
+      KC_DB: postgres
+      # URL de conexión a la base de datos PostgreSQL utilizando el nombre del servicio Docker (postgres)
+      KC_DB_URL: jdbc:postgresql://postgres:5432/inventory_db
+      # Usuario de base de datos de PostgreSQL (debe coincidir con POSTGRES_USER del servicio postgres)
+      KC_DB_USERNAME: inventory_user
+      # Contraseña de la base de datos de PostgreSQL (debe coincidir con POSTGRES_PASSWORD del servicio postgres)
+      KC_DB_PASSWORD: inventory_password
+    # Mapeo de puertos: Redirigimos el puerto 9080 del host al 8080 del contenedor (puerto por defecto de Keycloak)
+    # Se usa 9080 en el host para evitar conflictos con el puerto 8080 por defecto que suele utilizar Spring Boot
+    ports:
+      - "9080:8080"
+    # Mapeo de volúmenes: montamos el directorio local 'keycloak' hacia el contenedor
+    # Esto permite que Keycloak lea el archivo 'realm-export.json' e importe la configuración automáticamente
+    volumes:
+      - ./keycloak:/opt/keycloak/data/import/
+    # Dependencia: asegura que Keycloak inicie únicamente después de que el servicio PostgreSQL esté listo
+    depends_on:
+      - postgres
 
 # Declaración de volúmenes nombrados
 volumes:

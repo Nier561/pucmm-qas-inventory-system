@@ -7,6 +7,18 @@ spring:
     name: inventory-system
 
   # -----------------------------------------------------------------
+  # Configuración de Seguridad (OAuth2 Resource Server con Keycloak)
+  # -----------------------------------------------------------------
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # URI del emisor del token (Issuer URI). Corresponde al Realm 'Inventario' en nuestra instancia local de Keycloak.
+          # Spring Security utilizará esta URL para descargar automáticamente las llaves públicas (JWKS) necesarias
+          # para verificar la firma de los tokens JWT entrantes.
+          issuer-uri: http://localhost:9080/realms/Inventario
+
+  # -----------------------------------------------------------------
   # Configuración de la Base de Datos (Datasource)
   # -----------------------------------------------------------------
   datasource:

@@ -35,3 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### SDKs ###
+oracleJdk-21/

@@ -1,0 +1,85 @@
+{
+  "id": "inventario",
+  "realm": "Inventario",
+  "displayName": "Sistema de Gestión de Inventarios Empresarial",
+  "enabled": true,
+  "clients": [
+    {
+      "clientId": "inventory-client",
+      "name": "Inventory Client Application",
+      "description": "Cliente confidencial para la aplicación. 'standardFlowEnabled' permite el flujo de código de autorización (Authorization Code Flow) recomendado para aplicaciones web. 'directAccessGrantsEnabled' permite el Resource Owner Password Credentials Grant, útil para pruebas de API y automatizaciones.",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "inventory-client-secret-12345",
+      "redirectUris": [
+        "*"
+      ],
+      "webOrigins": [
+        "*"
+      ],
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "publicClient": false,
+      "frontchannelLogout": true,
+      "protocol": "openid-connect",
+      "fullScopeAllowed": true
+    }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "name": "product:view",
+        "description": "Permiso granular: Otorga al usuario el derecho de visualizar la información, listados y detalles del catálogo de productos."
+      },
+      {
+        "name": "product:manage",
+        "description": "Permiso granular: Otorga al usuario el derecho de crear nuevos productos, editar productos existentes y eliminar o desactivar productos."
+      },
+      {
+        "name": "stock:view",
+        "description": "Permiso granular: Otorga al usuario el derecho de visualizar los niveles actuales de inventario, stock por almacén y movimientos históricos."
+      },
+      {
+        "name": "stock:manage",
+        "description": "Permiso granular: Otorga al usuario el derecho de registrar entradas de inventario, salidas, transferencias y ajustes manuales de stock."
+      },
+      {
+        "name": "report:view",
+        "description": "Permiso granular: Otorga al usuario el derecho de acceder a la sección de reportes operativos, financieros y gerenciales, así como exportar datos."
+      },
+      {
+        "name": "user:manage",
+        "description": "Permiso granular: Otorga al usuario el derecho administrativo de gestionar otros usuarios del sistema, asignar roles, y configurar niveles de acceso."
+      },
+      {
+        "name": "audit:view",
+        "description": "Permiso granular: Otorga al usuario el derecho de consultar los registros de auditoría y bitácoras de acciones realizadas por los usuarios en el sistema."
+      }
+    ]
+  },
+  "users": [
+    {
+      "username": "admin-user",
+      "enabled": true,
+      "email": "admin@inventario.local",
+      "firstName": "Administrador",
+      "lastName": "Prueba",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "product:view",
+        "product:manage",
+        "stock:view",
+        "stock:manage",
+        "report:view",
+        "user:manage",
+        "audit:view"
+      ]
+    }
+  ]
+}
