@@ -52,11 +52,11 @@ public class ProductEntity {
     private Boolean isActive;
 
     /**
-     * Constructor protegido sin argumentos.
+     * Constructor público sin argumentos.
      * Es un requisito estricto de JPA/Hibernate para poder instanciar la entidad
      * mediante reflexión durante las operaciones de base de datos.
      */
-    protected ProductEntity() {
+    public ProductEntity() {
     }
 
     // ==========================================

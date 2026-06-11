@@ -48,10 +48,10 @@ public class StockMovementEntity {
     private String observations;
 
     /**
-     * Constructor protegido sin argumentos, requerido por el ciclo de vida de JPA
+     * Constructor público sin argumentos, requerido por el ciclo de vida de JPA
      * para la instanciación de objetos desde los ResultSets de la base de datos.
      */
-    protected StockMovementEntity() {
+    public StockMovementEntity() {
     }
 
     // ==========================================
