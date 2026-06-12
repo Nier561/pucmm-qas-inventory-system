@@ -30,7 +30,8 @@ public class Product {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    // Relación con Category vía FK category_id (reemplaza el antiguo String category).
+    // Relación con Category vía FK category_id (reemplaza el antiguo String
+    // category).
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -47,14 +48,17 @@ public class Product {
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
-    /** Constructor sin argumentos requerido por JPA. No usar directamente en código de negocio. */
+    /**
+     * Constructor sin argumentos requerido por JPA. No usar directamente en código
+     * de negocio.
+     */
     protected Product() {
     }
 
     /** Constructor con validaciones de negocio (invariantes). */
     public Product(UUID id, String name, String skuCode, String description, Category category,
-                   BigDecimal price, Integer initialQuantity,
-                   Integer minimumStock, Boolean isActive) {
+            BigDecimal price, Integer initialQuantity,
+            Integer minimumStock, Boolean isActive) {
 
         if (id == null) {
             throw new IllegalArgumentException("El ID del producto no puede ser nulo.");
